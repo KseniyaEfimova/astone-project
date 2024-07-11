@@ -6,7 +6,7 @@ const Header = () => {
     <header className={styles.header}>
       <div className={styles.logoContainer}>
         <img
-          src='/assets/logo.png'
+          src='../assets/logo.png'
           alt='Star Wars Logo'
           className={styles.logo}
         />
