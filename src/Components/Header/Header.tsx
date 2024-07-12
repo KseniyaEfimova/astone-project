@@ -16,10 +16,8 @@ const Header = () => {
 
   return (
     <header className={styles.header}>
-      <Link to='/'>
-        <div className={styles.logoContainer}>
-          <img src={logo} alt='Star Wars Logo' className={styles.logo} />
-        </div>
+      <Link to='/' className={styles.logoContainer}>
+        <img src={logo} alt='Star Wars Logo' className={styles.logo} />
       </Link>
 
       <div className={styles.authButtons}>
