@@ -4,6 +4,7 @@ import {
   IMAGE_CHARS_URL,
 } from '../../utils/Constants/api-constants.ts';
 import { getApiData } from '../../utils/API/network.ts';
+import SearchBar from '../../Components/Search-bar/Search-bar.tsx';
 import styles from './characters.module.css';
 
 interface Character {
@@ -49,16 +50,19 @@ const Characters = () => {
   if (error) return <p>ERROR: {error.message}</p>;
 
   return (
-    <section className={styles['characters-list']}>
-      {characters.map(({ name, imageUrl }) => (
-        <div key={name} className={styles['character-card']}>
-          <div className={styles['character-image']}>
-            <img src={imageUrl} alt={name} />
+    <>
+      <SearchBar />
+      <section className={styles['characters-list']}>
+        {characters.map(({ name, imageUrl }) => (
+          <div key={name} className={styles['character-card']}>
+            <div className={styles['character-image']}>
+              <img src={imageUrl} alt={name} />
+            </div>
+            <h3 className={styles['character-name']}>{name}</h3>
           </div>
-          <h3 className={styles['character-name']}>{name}</h3>
-        </div>
-      ))}
-    </section>
+        ))}
+      </section>
+    </>
   );
 };
 
