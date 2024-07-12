@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import {
   SW_CHARACTERS,
   IMAGE_CHARS_URL,
-} from '../../utils/Constants/constants.ts';
+} from '../../utils/Constants/api-constants.ts';
 import { getApiData } from '../../utils/API/network.ts';
 import styles from './characters.module.css';
 
@@ -12,7 +12,7 @@ interface Character {
   imageUrl: string;
 }
 
-interface ApiResponse {
+export interface ApiResponse {
   results: Character[];
 }
 
