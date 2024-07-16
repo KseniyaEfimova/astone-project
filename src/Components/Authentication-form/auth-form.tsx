@@ -1,6 +1,7 @@
 import { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useLocalStorage from '../../Hooks/useLocaleStorage.ts';
+import useLocalStorage from '../../Authentication/useLocaleStorage.ts';
+import { useAuth } from '../../Authentication/AuthContext.tsx';
 
 interface AuthProps {
   mode: 'register' | 'login';
@@ -14,6 +15,7 @@ const AuthForm = ({ mode }: AuthProps) => {
     {}
   );
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -24,9 +26,11 @@ const AuthForm = ({ mode }: AuthProps) => {
         return;
       }
       setUsers(prevUsers => ({ ...prevUsers, [email]: password }));
+      login();
       navigate('/');
     } else if (mode === 'login') {
       if (users[email] === password) {
+        login();
         navigate('/');
       } else {
         alert('Invalid email or password');

@@ -8,8 +8,6 @@ import Search from '../Pages/Search/Search.tsx';
 import Characters from '../Pages/Characters/Characters.tsx';
 import PrivateRoute from './PrivateRoute';
 
-const isAuthenticated = false; // TODO*: get this from the LocalStorage
-
 export const router = createBrowserRouter([
   {
     path: '/',
@@ -19,7 +17,7 @@ export const router = createBrowserRouter([
       { path: 'sign-in', element: <SignIn /> },
       { path: 'sign-up', element: <SignUp /> },
       {
-        element: <PrivateRoute isAuthenticated={isAuthenticated} />,
+        element: <PrivateRoute />,
         children: [
           { path: 'history', element: <History /> },
           { path: 'favorites', element: <Favorites /> },
