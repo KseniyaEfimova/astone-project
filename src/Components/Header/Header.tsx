@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import styles from './header.module.css';
+import s from './header.module.css';
 import logo from '../../assets/logo.png';
 import { useAuth } from '../../Authentication/AuthContext.tsx';
 
@@ -18,32 +18,32 @@ const Header = () => {
   };
 
   return (
-    <header className={styles.header}>
-      <Link to='/' className={styles.logoContainer}>
-        <img src={logo} alt='Star Wars Logo' className={styles.logo} />
+    <header className={s.header}>
+      <Link to='/' className={s.logoContainer}>
+        <img src={logo} alt='Star Wars Logo' className={s.logo} />
       </Link>
 
-      <div className={styles.authButtons}>
+      <div className={s.authButtons}>
         {isAuthenticated ? (
           <>
-            <button onClick={handleFavorites} className={styles.authButton}>
+            <button onClick={handleFavorites} className={s.authButton}>
               Favorites
             </button>
 
-            <button onClick={handleHistory} className={styles.authButton}>
+            <button onClick={handleHistory} className={s.authButton}>
               History
             </button>
 
-            <button onClick={handleLogout} className={styles.authButton}>
+            <button onClick={handleLogout} className={s.authButton}>
               LogOut
             </button>
           </>
         ) : (
           <>
-            <button onClick={handleSignIn} className={styles.authButton}>
+            <button onClick={handleSignIn} className={s.authButton}>
               Sign In
             </button>
-            <button onClick={handleSignUp} className={styles.authButton}>
+            <button onClick={handleSignUp} className={s.authButton}>
               Sign Up
             </button>
           </>
