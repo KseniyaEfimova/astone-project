@@ -1,9 +1,7 @@
+import AuthForm from '../../Components/Authentication-form/auth-form.tsx';
+
 const SignIn = () => {
-  return (
-    <>
-      <h1>Login Form</h1>
-    </>
-  );
+  return <AuthForm mode='login' />;
 };
 
 export default SignIn;
