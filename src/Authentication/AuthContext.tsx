@@ -4,6 +4,7 @@ import {
   useContext,
   ReactNode,
   useCallback,
+  useMemo,
 } from 'react';
 
 interface AuthContextType {
@@ -29,11 +30,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setIsAuthenticated(false);
   }, []);
 
-  const value = {
-    isAuthenticated,
-    login,
-    logout,
-  };
+  const value = useMemo(
+    () => ({
+      isAuthenticated,
+      login,
+      logout,
+    }),
+    [isAuthenticated, login, logout]
+  );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
