@@ -1,14 +1,12 @@
 import { Navigate, Outlet } from 'react-router-dom';
+import { useAuth } from '../Authentication/AuthContext';
 
 interface PrivateRouteProps {
-  isAuthenticated: boolean;
   redirectPath?: string;
 }
 
-const PrivateRoute = ({
-  isAuthenticated,
-  redirectPath = '/sign-in',
-}: PrivateRouteProps) => {
+const PrivateRoute = ({ redirectPath = '/sign-in' }: PrivateRouteProps) => {
+  const { isAuthenticated } = useAuth();
   return isAuthenticated ? <Outlet /> : <Navigate to={redirectPath} />;
 };
 
