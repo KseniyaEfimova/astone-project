@@ -5,15 +5,15 @@ import SignUp from '../Pages/Sign-Up/Sign-up.tsx';
 import History from '../Pages/History/History.tsx';
 import Favorites from '../Pages/Favorites/Favorites.tsx';
 import Search from '../Pages/Search/Search.tsx';
-import Characters from '../Pages/Characters/Characters.tsx';
 import PrivateRoute from './PrivateRoute';
+import HomePage from '../Pages/Home/Home.tsx';
 
 export const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
     children: [
-      { index: true, element: <Characters /> },
+      { index: true, element: <HomePage /> },
       { path: 'sign-in', element: <SignIn /> },
       { path: 'sign-up', element: <SignUp /> },
       {
