@@ -14,7 +14,9 @@ const Header = () => {
   const handleHistory = () => navigate('/history');
   const handleLogout = () => {
     logout();
-    navigate('/');
+    if (!window.location.pathname.startsWith('/character/')) {
+      navigate('/');
+    }
   };
 
   return (

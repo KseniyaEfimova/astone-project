@@ -15,6 +15,7 @@ export interface Character {
   created: string;
   edited: string;
   url: string;
+  id: string;
 }
 
 export interface CharacterWithImage extends Character {

@@ -1,10 +1,13 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useGetCharacterQuery } from '../../slices/api-slice';
 import FilmInfo from './Film-info.tsx';
 import PlanetInfo from './Planet-info.tsx';
 import s from './chat-card.module.css';
+import { useAuth } from '../../Authentication/AuthContext.tsx';
 
 const CharCard = () => {
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
   const { id = '' } = useParams<{ id: string }>();
   const { data: character, isLoading, error } = useGetCharacterQuery(id);
 
@@ -14,6 +17,14 @@ const CharCard = () => {
       <h2>Error: {error instanceof Error ? error.message : 'Unknown error'}</h2>
     );
   if (!character) return <p>Character not found</p>;
+
+  const handleFavoriteAction = () => {
+    if (!isAuthenticated) {
+      navigate('/sign-in');
+      return;
+    }
+    // TODO: Add logic to add/remove favorites
+  };
 
   return (
     <div className={s.charCard}>
@@ -67,8 +78,12 @@ const CharCard = () => {
           </ul>
         </div>
         <div className={s.buttons}>
-          <button className={s.favoriteButton}>Add to Favorite</button>
-          <button className={s.removeButton}>Remove from Favorite</button>
+          <button onClick={handleFavoriteAction} className={s.favoriteButton}>
+            Add to Favorite
+          </button>
+          <button onClick={handleFavoriteAction} className={s.removeButton}>
+            Remove from Favorite
+          </button>
         </div>
       </div>
     </div>
