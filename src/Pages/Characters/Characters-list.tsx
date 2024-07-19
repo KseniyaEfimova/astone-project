@@ -23,7 +23,7 @@ const Characters = () => {
 
   return (
     <section className={s['characters-list']}>
-      {data?.map((character: CharacterWithImage) => (
+      {data.map((character: CharacterWithImage) => (
         <div
           key={character.name}
           onClick={() => handleShowCharacter(character)}
