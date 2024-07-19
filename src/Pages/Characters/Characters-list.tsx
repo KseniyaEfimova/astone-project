@@ -1,3 +1,4 @@
+import React from 'react';
 import { useGetSomeCharactersQuery } from '../../slices/api-slice.ts';
 import { CharacterWithImage } from '../../types/star-wars-api-types.ts';
 import s from './characters.module.css';
@@ -5,10 +6,10 @@ import s from './characters.module.css';
 const Characters = () => {
   const { data, isLoading, error } = useGetSomeCharactersQuery();
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <h3>Loading a few character cards...</h3>;
   if (error)
     return (
-      <p>Error: {error instanceof Error ? error.message : 'Unknown error'}</p>
+      <h2>Error: {error instanceof Error ? error.message : 'Unknown error'}</h2>
     );
 
   return (
@@ -25,4 +26,4 @@ const Characters = () => {
   );
 };
 
-export default Characters;
+export default React.memo(Characters);

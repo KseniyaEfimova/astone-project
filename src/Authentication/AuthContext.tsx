@@ -1,15 +1,16 @@
 import {
   createContext,
-  useState,
   useContext,
   ReactNode,
   useCallback,
   useMemo,
 } from 'react';
 
+import useLocalStorage from './useLocaleStorage';
+
 interface AuthContextType {
   isAuthenticated: boolean;
-  login: () => void;
+  login: (token: string) => void;
   logout: () => void;
 }
 
@@ -20,23 +21,24 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [token, setToken] = useLocalStorage<string | null>('authToken', null);
 
-  const login = useCallback(() => {
-    setIsAuthenticated(true);
+  const login = useCallback((newToken: string) => {
+    setToken(newToken);
   }, []);
 
   const logout = useCallback(() => {
-    setIsAuthenticated(false);
+    setToken(null);
   }, []);
 
   const value = useMemo(
     () => ({
-      isAuthenticated,
+      isAuthenticated: !!token,
       login,
       logout,
     }),
-    [isAuthenticated, login, logout]
+    [token]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

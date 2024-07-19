@@ -27,11 +27,13 @@ const AuthForm = ({ mode }: AuthProps) => {
         return;
       }
       setUsers(prevUsers => ({ ...prevUsers, [email]: password }));
-      login();
+      const token = btoa(`${email}:${password}`);
+      login(token);
       navigate('/');
     } else if (mode === 'login') {
       if (users[email] === password) {
-        login();
+        const token = btoa(`${email}:${password}`);
+        login(token);
         navigate('/');
       } else {
         alert('Invalid email or password');
