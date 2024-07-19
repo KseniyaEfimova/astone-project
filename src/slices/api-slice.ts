@@ -11,6 +11,7 @@ import {
 export const starWarsApiSlice = createApi({
   reducerPath: 'starWarsApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://swapi.dev/api/' }),
+  tagTypes: ['Character'],
   endpoints: builder => ({
     getSomeCharacters: builder.query<CharacterWithImage[], void>({
       query: () => 'people',
@@ -21,6 +22,7 @@ export const starWarsApiSlice = createApi({
           imageUrl: getCharacterImageUrl(character.url),
         }));
       },
+      keepUnusedDataFor: 1800,
     }),
     getCharacter: builder.query<CharacterWithImage, string>({
       query: id => `people/${id}/`,
