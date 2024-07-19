@@ -7,6 +7,7 @@ import Favorites from '../Pages/Favorites/Favorites.tsx';
 import Search from '../Pages/Search/Search.tsx';
 import PrivateRoute from './PrivateRoute';
 import HomePage from '../Pages/Home/Home.tsx';
+import CharCard from '../Components/Char-card/Char-card.tsx';
 
 export const router = createBrowserRouter([
   {
@@ -16,6 +17,7 @@ export const router = createBrowserRouter([
       { index: true, element: <HomePage /> },
       { path: 'sign-in', element: <SignIn /> },
       { path: 'sign-up', element: <SignUp /> },
+      { path: 'character/:id', element: <CharCard /> },
       {
         element: <PrivateRoute />,
         children: [
