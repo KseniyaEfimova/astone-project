@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useGetCharacterQuery } from '../../slices/api-slice';
 import FilmInfo from './Film-info.tsx';
 import PlanetInfo from './Planet-info.tsx';
+import s from './chat-card.module.css';
 
 const CharCard = () => {
   const { id = '' } = useParams<{ id: string }>();
@@ -15,36 +16,62 @@ const CharCard = () => {
   if (!character) return <p>Character not found</p>;
 
   return (
-    <>
-      <section className='character-detail'>
-        <h2>{character.name}</h2>
-        <img src={character.imageUrl} alt={character.name} />
-        <ul>
-          <li>Birth Year: {character.birth_year}</li>
-          <li>Eye Color: {character.eye_color}</li>
-          <li>Gender: {character.gender}</li>
-          <li>Hair Color: {character.hair_color}</li>
-          <li>Height: {character.height} cm</li>
-          <li>Mass: {character.mass} kg</li>
-          <li>Skin Color: {character.skin_color}</li>
-          <li>
-            Films:
-            {character.films.map((filmUrl, index) => (
-              <div key={index}>
-                <FilmInfo filmUrl={filmUrl} />
-              </div>
-            ))}
-          </li>
-          <li>
-            Homeworld: <PlanetInfo planetUrl={character.homeworld} />
-          </li>
-        </ul>
-      </section>
-      <div>
-        <button>Add to Favorite</button>
-        <button>Remove from Favorite </button>
+    <div className={s.charCard}>
+      <h2 className={s.characterName}>{character.name}</h2>
+      <div className={s.cardContent}>
+        <img
+          className={s.characterImage}
+          src={character.imageUrl}
+          alt={character.name}
+        />
+        <div className={s.characterInfo}>
+          <ul>
+            <li>
+              <span className={s.staticData}>Birth Year:</span>{' '}
+              {character.birth_year}
+            </li>
+            <li>
+              <span className={s.staticData}>Eye Color:</span>{' '}
+              {character.eye_color}
+            </li>
+            <li>
+              <span className={s.staticData}>Gender:</span> {character.gender}
+            </li>
+            <li>
+              <span className={s.staticData}>Hair Color:</span>{' '}
+              {character.hair_color}
+            </li>
+            <li>
+              <span className={s.staticData}>Height:</span> {character.height}{' '}
+              cm
+            </li>
+            <li>
+              <span className={s.staticData}>Mass:</span> {character.mass} kg
+            </li>
+            <li>
+              <span className={s.staticData}>Skin Color:</span>{' '}
+              {character.skin_color}
+            </li>
+            <li>
+              <span className={s.staticData}>Films:</span>
+              {character.films.map((filmUrl, index) => (
+                <div key={index}>
+                  <FilmInfo filmUrl={filmUrl} />
+                </div>
+              ))}
+            </li>
+            <li>
+              <span className={s.staticData}>Homeworld:</span>
+              <PlanetInfo planetUrl={character.homeworld} />
+            </li>
+          </ul>
+        </div>
+        <div className={s.buttons}>
+          <button className={s.favoriteButton}>Add to Favorite</button>
+          <button className={s.removeButton}>Remove from Favorite</button>
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 

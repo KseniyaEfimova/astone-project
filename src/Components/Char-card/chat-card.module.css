@@ -1,0 +1,79 @@
+.charCard {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.characterName {
+  text-align: center;
+  font-size: 2.5em;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+.cardContent {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.characterImage {
+  width: 300px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.characterInfo {
+  flex-grow: 1;
+  margin-left: 40px;
+}
+
+.characterInfo ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.characterInfo li {
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.staticData {
+  font-weight: bold;
+  color: #555;
+  margin-right: 10px;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  margin-left: 20px;
+}
+
+.favoriteButton,
+.removeButton {
+  padding: 10px 20px;
+  margin: 5px 0;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.favoriteButton {
+  background-color: #4caf50;
+  color: white;
+}
+
+.removeButton {
+  background-color: #f44336;
+  color: white;
+}
+
+.favoriteButton:hover,
+.removeButton:hover {
+  opacity: 0.8;
+}
