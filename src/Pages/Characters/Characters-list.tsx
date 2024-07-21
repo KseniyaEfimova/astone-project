@@ -19,8 +19,6 @@ const Characters = () => {
     navigate('/character/' + character.id);
   };
 
-  console.log(data);
-
   return (
     <section className={s['characters-list']}>
       {data.map((character: CharacterWithImage) => (
