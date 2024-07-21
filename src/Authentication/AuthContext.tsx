@@ -21,7 +21,6 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  // const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [token, setToken] = useLocalStorage<string | null>('authToken', null);
 
   const login = useCallback((newToken: string) => {

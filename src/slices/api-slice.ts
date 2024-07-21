@@ -32,11 +32,11 @@ export const starWarsApiSlice = createApi({
         imageUrl: getCharacterImageUrl(character.url),
       }),
     }),
-    getFilm: builder.query<Film, number>({
-      query: id => `films/${id}/`,
+    getFilm: builder.query<Film, string>({
+      query: url => url,
     }),
-    getPlanet: builder.query<Planet, number>({
-      query: id => `planets/${id}/`,
+    getPlanet: builder.query<Planet, string>({
+      query: url => url,
     }),
   }),
 });
