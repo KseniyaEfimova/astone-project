@@ -15,6 +15,7 @@ export interface Character {
   created: string;
   edited: string;
   url: string;
+  id: string;
 }
 
 export interface CharacterWithImage extends Character {
@@ -26,4 +27,29 @@ export interface CharactersResponse {
   next: string | null;
   previous: string | null;
   results: Character[];
+}
+
+export interface Film {
+  title: string;
+  episode_id: number;
+}
+
+export interface Planet {
+  name: string;
+}
+
+export interface FilmResponse {
+  results: Film[];
+}
+
+export interface PlanetResponse {
+  results: Planet[];
+}
+
+export interface FilmInfoProps {
+  filmUrl: string;
+}
+
+export interface PlanetInfoProps {
+  planetUrl: string;
 }
