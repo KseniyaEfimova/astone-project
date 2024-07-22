@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import s from './header.module.css';
 import logo from '../../assets/logo.png';
-import { useAuth } from '../../Authentication/AuthContext.tsx';
+import { useAuth } from '../../Authentication/Auth-context.tsx';
 
 const Header = () => {
   const navigate = useNavigate();
