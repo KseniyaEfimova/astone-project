@@ -6,7 +6,7 @@ import {
   useMemo,
 } from 'react';
 
-import useLocalStorage from './useLocaleStorage';
+import useLocalStorage from './use-locale-storage';
 
 interface AuthContextType {
   isAuthenticated: boolean;

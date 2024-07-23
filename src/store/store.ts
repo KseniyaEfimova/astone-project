@@ -3,10 +3,6 @@ import { starWarsApiSlice } from '../slices/api-slice';
 import searchReducer from '../slices/search-slice';
 
 const store = configureStore({
-  // reducer: {
-  //   [starWarsApiSlice.reducerPath]: starWarsApiSlice.reducer,
-  // },
-
   reducer: {
     [starWarsApiSlice.reducerPath]: starWarsApiSlice.reducer,
     search: searchReducer,

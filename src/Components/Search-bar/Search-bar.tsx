@@ -2,8 +2,8 @@ import React, { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store.ts';
 import s from './search-bar.module.css'; // TODO: css
-import SuggestionList from './SuggestionList.tsx';
-import SearchInput from './SearchInput';
+import SuggestionList from './Suggestion-list.tsx';
+import SearchInput from './Search-input.tsx';
 import { useSearchLogic } from './useSearchLogic.ts';
 
 const SearchBar: React.FC = () => {
