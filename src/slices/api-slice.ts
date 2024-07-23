@@ -25,6 +25,7 @@ export const starWarsApiSlice = createApi({
       },
       keepUnusedDataFor: 1800,
     }),
+
     getCharacter: builder.query<CharacterWithImage, string>({
       query: id => `people/${id}/`,
       transformResponse: (character: Character) => ({
@@ -32,11 +33,24 @@ export const starWarsApiSlice = createApi({
         imageUrl: getCharacterImageUrl(character.url),
       }),
     }),
+
     getFilm: builder.query<Film, string>({
       query: url => url,
     }),
+
     getPlanet: builder.query<Planet, string>({
       query: url => url,
+    }),
+
+    searchCharacters: builder.query<CharacterWithImage[], string>({
+      query: searchTerm => `people/?search=${searchTerm}`,
+      transformResponse: (response: CharactersResponse) => {
+        return response.results.map(character => ({
+          ...character,
+          imageUrl: getCharacterImageUrl(character.url),
+          id: character.url.split('/').filter(Boolean).pop() ?? '',
+        }));
+      },
     }),
   }),
 });
@@ -52,3 +66,6 @@ export const useGetFilmQuery: typeof starWarsApiSlice.endpoints.getFilm.useQuery
 
 export const useGetPlanetQuery: typeof starWarsApiSlice.endpoints.getPlanet.useQuery =
   starWarsApiSlice.endpoints.getPlanet.useQuery;
+
+export const useSearchCharactersQuery: typeof starWarsApiSlice.endpoints.searchCharacters.useQuery =
+  starWarsApiSlice.endpoints.searchCharacters.useQuery;

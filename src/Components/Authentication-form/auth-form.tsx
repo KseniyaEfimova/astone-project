@@ -1,7 +1,7 @@
 import { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useLocalStorage from '../../Authentication/useLocaleStorage.ts';
-import { useAuth } from '../../Authentication/AuthContext.tsx';
+import useLocalStorage from '../../Authentication/use-locale-storage.ts';
+import { useAuth } from '../../Authentication/Auth-context.tsx';
 import s from './auth-form.module.css';
 
 interface AuthProps {

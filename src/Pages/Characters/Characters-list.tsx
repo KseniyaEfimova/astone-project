@@ -4,11 +4,17 @@ import { CharacterWithImage } from '../../types/star-wars-api-types.ts';
 import s from './characters.module.css';
 import { useNavigate } from 'react-router-dom';
 
-const Characters = () => {
-  const navigate = useNavigate();
-  const { data, isLoading, error } = useGetSomeCharactersQuery();
+export interface CharCardProps {
+  charactersData?: CharacterWithImage[];
+}
 
-  if (!data) return <p>Characters not found</p>;
+const Characters = ({ charactersData }: CharCardProps) => {
+  const navigate = useNavigate();
+  const { data: characters, isLoading, error } = useGetSomeCharactersQuery();
+
+  const displayCharacters = charactersData || characters || [];
+
+  if (!displayCharacters) return <p>Characters not found</p>;
   if (isLoading) return <h3>Loading a few character cards...</h3>;
   if (error)
     return (
@@ -21,7 +27,7 @@ const Characters = () => {
 
   return (
     <section className={s['characters-list']}>
-      {data.map((character: CharacterWithImage) => (
+      {displayCharacters.map((character: CharacterWithImage) => (
         <div
           key={character.name}
           onClick={() => handleShowCharacter(character)}

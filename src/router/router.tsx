@@ -8,6 +8,7 @@ import Search from '../Pages/Search/Search.tsx';
 import PrivateRoute from './PrivateRoute';
 import HomePage from '../Pages/Home/Home.tsx';
 import CharCard from '../Components/Char-card/Char-card.tsx';
+import SearchPage from '../Pages/Search/Search.tsx';
 
 export const router = createBrowserRouter([
   {
@@ -18,6 +19,7 @@ export const router = createBrowserRouter([
       { path: 'sign-in', element: <SignIn /> },
       { path: 'sign-up', element: <SignUp /> },
       { path: 'character/:id', element: <CharCard /> },
+      { path: 'search', element: <SearchPage /> },
       {
         element: <PrivateRoute />,
         children: [

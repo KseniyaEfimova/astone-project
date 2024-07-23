@@ -3,20 +3,27 @@ import { useGetCharacterQuery } from '../../slices/api-slice';
 import FilmInfo from './Film-info.tsx';
 import PlanetInfo from './Planet-info.tsx';
 import s from './chat-card.module.css';
-import { useAuth } from '../../Authentication/AuthContext.tsx';
+import { useAuth } from '../../Authentication/Auth-context.tsx';
+import { CharacterWithImage } from '../../types/star-wars-api-types.ts';
 
-const CharCard = () => {
+interface CharCardProps {
+  characterData?: CharacterWithImage;
+}
+
+const CharCard = ({ characterData }: CharCardProps) => {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const { id = '' } = useParams<{ id: string }>();
   const { data: character, isLoading, error } = useGetCharacterQuery(id);
+
+  const displayCharacter = characterData || character;
 
   if (isLoading) return <h3>Loading a character card...</h3>;
   if (error)
     return (
       <h2>Error: {error instanceof Error ? error.message : 'Unknown error'}</h2>
     );
-  if (!character) return <p>Character not found</p>;
+  if (!displayCharacter) return <p>Character not found</p>;
 
   const handleFavoriteAction = () => {
     if (!isAuthenticated) {
@@ -28,44 +35,46 @@ const CharCard = () => {
 
   return (
     <div className={s.charCard}>
-      <h2 className={s.characterName}>{character.name}</h2>
+      <h2 className={s.characterName}>{displayCharacter.name}</h2>
       <div className={s.cardContent}>
         <img
           className={s.characterImage}
-          src={character.imageUrl}
-          alt={character.name}
+          src={displayCharacter.imageUrl}
+          alt={displayCharacter.name}
         />
         <div className={s.characterInfo}>
           <ul>
             <li>
               <span className={s.staticData}>Birth Year:</span>{' '}
-              {character.birth_year}
+              {displayCharacter.birth_year}
             </li>
             <li>
               <span className={s.staticData}>Eye Color:</span>{' '}
-              {character.eye_color}
+              {displayCharacter.eye_color}
             </li>
             <li>
-              <span className={s.staticData}>Gender:</span> {character.gender}
+              <span className={s.staticData}>Gender:</span>{' '}
+              {displayCharacter.gender}
             </li>
             <li>
               <span className={s.staticData}>Hair Color:</span>{' '}
-              {character.hair_color}
+              {displayCharacter.hair_color}
             </li>
             <li>
-              <span className={s.staticData}>Height:</span> {character.height}{' '}
-              cm
+              <span className={s.staticData}>Height:</span>{' '}
+              {displayCharacter.height} cm
             </li>
             <li>
-              <span className={s.staticData}>Mass:</span> {character.mass} kg
+              <span className={s.staticData}>Mass:</span>{' '}
+              {displayCharacter.mass} kg
             </li>
             <li>
               <span className={s.staticData}>Skin Color:</span>{' '}
-              {character.skin_color}
+              {displayCharacter.skin_color}
             </li>
             <li>
               <span className={s.staticData}>Films:</span>
-              {character.films.map((filmUrl, index) => (
+              {displayCharacter.films.map((filmUrl, index) => (
                 <div key={index}>
                   <FilmInfo filmUrl={filmUrl} />
                 </div>
@@ -73,7 +82,7 @@ const CharCard = () => {
             </li>
             <li>
               <span className={s.staticData}>Homeworld:</span>
-              <PlanetInfo planetUrl={character.homeworld} />
+              <PlanetInfo planetUrl={displayCharacter.homeworld} />
             </li>
           </ul>
         </div>

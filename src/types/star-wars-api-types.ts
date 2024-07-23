@@ -35,6 +35,7 @@ export interface Film {
 }
 
 export interface Planet {
+  [x: string]: any;
   name: string;
 }
 
@@ -52,4 +53,9 @@ export interface FilmInfoProps {
 
 export interface PlanetInfoProps {
   planetUrl: string;
+}
+
+export interface Suggestion {
+  name: string;
+  id: string;
 }
