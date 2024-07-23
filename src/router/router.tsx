@@ -5,7 +5,7 @@ import SignUp from '../Pages/Sign-Up/Sign-up.tsx';
 import History from '../Pages/History/History.tsx';
 import Favorites from '../Pages/Favorites/Favorites.tsx';
 import Search from '../Pages/Search/Search.tsx';
-import PrivateRoute from './PrivateRoute';
+import PrivateRoute from './private-route.tsx';
 import HomePage from '../Pages/Home/Home.tsx';
 import CharCard from '../Components/Char-card/Char-card.tsx';
 import SearchPage from '../Pages/Search/Search.tsx';
