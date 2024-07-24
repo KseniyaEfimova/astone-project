@@ -4,26 +4,33 @@ import FilmInfo from './Film-info.tsx';
 import PlanetInfo from './Planet-info.tsx';
 import s from './chat-card.module.css';
 import { useAuth } from '../../Authentication/Auth-context.tsx';
-import { CharacterWithImage } from '../../types/star-wars-api-types.ts';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../store/store.ts';
+import { useEffect } from 'react';
+import { setCurrentCharacter } from '../../slices/characters-slice.ts';
 
-interface CharCardProps {
-  characterData?: CharacterWithImage;
-}
-
-const CharCard = ({ characterData }: CharCardProps) => {
+const CharCard = () => {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { id = '' } = useParams<{ id: string }>();
   const { data: character, isLoading, error } = useGetCharacterQuery(id);
+  const currentCharacter = useSelector(
+    (state: RootState) => state.characters.currentCharacter
+  );
 
-  const displayCharacter = characterData || character;
+  useEffect(() => {
+    if (character) {
+      dispatch(setCurrentCharacter(character));
+    }
+  }, [character, dispatch]);
 
   if (isLoading) return <h3>Loading a character card...</h3>;
   if (error)
     return (
       <h2>Error: {error instanceof Error ? error.message : 'Unknown error'}</h2>
     );
-  if (!displayCharacter) return <p>Character not found</p>;
+  if (!currentCharacter) return <p>Character not found</p>;
 
   const handleFavoriteAction = () => {
     if (!isAuthenticated) {
@@ -35,46 +42,46 @@ const CharCard = ({ characterData }: CharCardProps) => {
 
   return (
     <div className={s.charCard}>
-      <h2 className={s.characterName}>{displayCharacter.name}</h2>
+      <h2 className={s.characterName}>{currentCharacter.name}</h2>
       <div className={s.cardContent}>
         <img
           className={s.characterImage}
-          src={displayCharacter.imageUrl}
-          alt={displayCharacter.name}
+          src={currentCharacter.imageUrl}
+          alt={currentCharacter.name}
         />
         <div className={s.characterInfo}>
           <ul>
             <li>
               <span className={s.staticData}>Birth Year:</span>{' '}
-              {displayCharacter.birth_year}
+              {currentCharacter.birth_year}
             </li>
             <li>
               <span className={s.staticData}>Eye Color:</span>{' '}
-              {displayCharacter.eye_color}
+              {currentCharacter.eye_color}
             </li>
             <li>
               <span className={s.staticData}>Gender:</span>{' '}
-              {displayCharacter.gender}
+              {currentCharacter.gender}
             </li>
             <li>
               <span className={s.staticData}>Hair Color:</span>{' '}
-              {displayCharacter.hair_color}
+              {currentCharacter.hair_color}
             </li>
             <li>
               <span className={s.staticData}>Height:</span>{' '}
-              {displayCharacter.height} cm
+              {currentCharacter.height} cm
             </li>
             <li>
               <span className={s.staticData}>Mass:</span>{' '}
-              {displayCharacter.mass} kg
+              {currentCharacter.mass} kg
             </li>
             <li>
               <span className={s.staticData}>Skin Color:</span>{' '}
-              {displayCharacter.skin_color}
+              {currentCharacter.skin_color}
             </li>
             <li>
               <span className={s.staticData}>Films:</span>
-              {displayCharacter.films.map((filmUrl, index) => (
+              {currentCharacter.films.map((filmUrl, index) => (
                 <div key={index}>
                   <FilmInfo filmUrl={filmUrl} />
                 </div>
@@ -82,7 +89,7 @@ const CharCard = ({ characterData }: CharCardProps) => {
             </li>
             <li>
               <span className={s.staticData}>Homeworld:</span>
-              <PlanetInfo planetUrl={displayCharacter.homeworld} />
+              <PlanetInfo planetUrl={currentCharacter.homeworld} />
             </li>
           </ul>
         </div>

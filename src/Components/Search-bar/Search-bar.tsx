@@ -1,12 +1,14 @@
-import React, { useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store.ts';
-import s from './search-bar.module.css'; // TODO: css
 import SuggestionList from './Suggestion-list.tsx';
 import SearchInput from './Search-input.tsx';
-import { useSearchLogic } from './useSearchLogic.ts';
+import { useSearchLogic } from './use-search-logic.ts';
+import { clearSearch } from '../../slices/search-slice.ts';
+import s from './search-bar.module.css'; // TODO: css
 
-const SearchBar: React.FC = () => {
+const SearchBar = () => {
+  const dispatch = useDispatch();
   const { query, suggestions } = useSelector(
     (state: RootState) => state.search
   );
@@ -20,6 +22,12 @@ const SearchBar: React.FC = () => {
     handleSearch,
     handleSuggestionClick,
   } = useSearchLogic(query);
+
+  useEffect(() => {
+    if (location.pathname === '/') {
+      dispatch(clearSearch());
+    }
+  }, [location.pathname, dispatch]);
 
   const handleClickOutside = (event: MouseEvent) => {
     if (

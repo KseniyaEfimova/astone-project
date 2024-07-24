@@ -2,7 +2,11 @@ import { useState, useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { debounce } from 'lodash';
-import { setQuery, setSuggestions } from '../../slices/search-slice';
+import {
+  clearSearch,
+  setQuery,
+  setSuggestions,
+} from '../../slices/search-slice';
 import { useSearchCharactersQuery } from '../../slices/api-slice';
 import {
   CharacterWithImage,
@@ -21,16 +25,18 @@ export const useSearchLogic = (initialQuery: string) => {
       if (term.length >= 2) {
         dispatch(setQuery(term));
       }
-    }),
+    }, 100),
     [dispatch]
   );
 
   const { data: searchResults, isLoading } = useSearchCharactersQuery(
     initialQuery,
     {
-      skip: initialQuery.length < 2,
+      skip: initialQuery.length < 3,
     }
   );
+
+  console.log(searchResults);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -38,6 +44,9 @@ export const useSearchLogic = (initialQuery: string) => {
     if (queryParam) {
       setLocalQuery(queryParam);
       dispatch(setQuery(queryParam));
+    } else {
+      setLocalQuery('');
+      dispatch(clearSearch());
     }
   }, [location.search, dispatch]);
 
@@ -60,6 +69,7 @@ export const useSearchLogic = (initialQuery: string) => {
 
   const handleSearch = () => {
     if (localQuery) {
+      dispatch(setQuery(localQuery));
       navigate(`/search?q=${encodeURIComponent(localQuery)}`);
     }
   };

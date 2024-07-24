@@ -1,19 +1,49 @@
-import SearchBar from '../../Components/Search-bar/Search-bar';
-import Characters from '../../Pages/Characters/Characters-list';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { useSearchCharactersQuery } from '../../slices/api-slice';
-import s from './search-page.module.css'; // TODO: css
+import SearchBar from '../../Components/Search-bar/Search-bar';
+import Characters from '../Characters/Characters-list';
+import {
+  useSearchCharactersQuery,
+  useGetSomeCharactersQuery,
+} from '../../slices/api-slice';
+import { RootState } from '../../store/store';
+import { setCharacters } from '../../slices/characters-slice';
+import { setQuery } from '../../slices/search-slice';
+import s from './search-page.module.css';
 
 const SearchPage = () => {
+  const dispatch = useDispatch();
   const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const query = searchParams.get('q') || '';
+  const query = useSelector((state: RootState) => state.search.query);
 
-  const {
-    data: searchResults,
-    isLoading,
-    error,
-  } = useSearchCharactersQuery(query);
+  const { data: initialCharacters } = useGetSomeCharactersQuery();
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const queryParam = searchParams.get('q') || '';
+    if (queryParam !== query) {
+      dispatch(setQuery(queryParam));
+    }
+  }, [location.search, dispatch, query]);
+
+  const { data: searchResults } = useSearchCharactersQuery(query, {
+    skip: !query,
+  });
+
+  console.log(initialCharacters);
+  console.log(searchResults);
+
+  useEffect(() => {
+    if (searchResults && searchResults.length > 0) {
+      dispatch(setCharacters(searchResults));
+    } else if (
+      initialCharacters &&
+      (!searchResults || searchResults.length === 0)
+    ) {
+      dispatch(setCharacters(initialCharacters));
+    }
+  }, [searchResults, initialCharacters, dispatch]);
 
   return (
     <section className={s.searchPage}>
@@ -21,12 +51,11 @@ const SearchPage = () => {
         <SearchBar />
       </div>
       <div className={s.searchResults}>
-        {isLoading && <p>Loading...</p>}
-        {error && <p>Error occurred while searching.</p>}
-        {searchResults && searchResults.length === 0 && (
-          <p>No results found.</p>
+        {searchResults?.length === 0 ? (
+          <h2>No results found</h2>
+        ) : (
+          <Characters />
         )}
-        {searchResults && <Characters charactersData={searchResults} />}
       </div>
     </section>
   );
