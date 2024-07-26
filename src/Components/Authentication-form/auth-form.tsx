@@ -33,7 +33,7 @@ const AuthForm = ({ mode }: AuthProps) => {
       }
       setUsers(prevUsers => ({
         ...prevUsers,
-        [email]: { password, favorites: [] },
+        [email]: { password, favorites: [], searchHistory: [] },
       }));
       const token = btoa(`${email}:${password}`);
       login(token);

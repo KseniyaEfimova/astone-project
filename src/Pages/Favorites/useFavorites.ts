@@ -5,6 +5,7 @@ import useLocalStorage from '../../Authentication/use-locale-storage';
 export interface UserData {
   password: string;
   favorites: string[];
+  searchHistory: string[];
 }
 
 export const useFavorites = () => {
