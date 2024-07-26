@@ -12,6 +12,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   login: (token: string) => void;
   logout: () => void;
+  getCurrentUserEmail: () => string | null;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -31,11 +32,17 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setToken(null);
   }, []);
 
+  const getCurrentUserEmail = useCallback((): string | null => {
+    if (!token) return null;
+    return atob(token).split(':')[0];
+  }, [token]);
+
   const value = useMemo(
     () => ({
       isAuthenticated: !!token,
       login,
       logout,
+      getCurrentUserEmail,
     }),
     [token]
   );

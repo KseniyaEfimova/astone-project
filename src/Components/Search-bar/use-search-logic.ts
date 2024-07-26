@@ -36,8 +36,6 @@ export const useSearchLogic = (initialQuery: string) => {
     }
   );
 
-  console.log(searchResults);
-
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const queryParam = searchParams.get('q');

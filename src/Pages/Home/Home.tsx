@@ -1,38 +1,39 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import SearchBar from '../../Components/Search-bar/Search-bar';
-import Characters from '../Characters/Characters-list';
 import { useGetSomeCharactersQuery } from '../../slices/api-slice';
 import { setCharacters } from '../../slices/characters-slice';
 import { clearSearch } from '../../slices/search-slice';
+import SearchBar from '../../Components/Search-bar/Search-bar';
+import CharactersWrapper from '../Characters/CharactersWrapper';
 
 const HomePage = () => {
   const dispatch = useDispatch();
-  const { data: initialCharacters, isLoading } = useGetSomeCharactersQuery();
+  const {
+    data: initialCharacters,
+    isLoading,
+    error,
+  } = useGetSomeCharactersQuery();
 
   useEffect(() => {
     dispatch(clearSearch());
     if (initialCharacters) {
-      console.time('Dispatch setCharacters');
       dispatch(setCharacters(initialCharacters));
-      console.timeEnd('Dispatch setCharacters');
     }
   }, [dispatch, initialCharacters]);
 
-  useEffect(() => {
-    if (isLoading) {
-      console.time('API request');
-    } else {
-      console.timeEnd('API request');
-    }
-  }, [isLoading]);
+  const characterIds = initialCharacters
+    ? initialCharacters.map(character => character.id)
+    : [];
+
+  if (isLoading) return <div>Loading character cards...</div>;
+  if (error) return <div>Error loading character data</div>;
 
   return (
     <>
       <SearchBar />
-      <Characters />
+      <CharactersWrapper characterIds={characterIds} isFavoritesPage={false} />
     </>
   );
 };
 
-export default HomePage;
+export default React.memo(HomePage);
