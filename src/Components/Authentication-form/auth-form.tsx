@@ -1,17 +1,22 @@
 import { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useLocalStorage from '../../Authentication/use-locale-storage.ts';
 import { useAuth } from '../../Authentication/Auth-context.tsx';
+import useLocalStorage from '../../Authentication/use-locale-storage.ts';
 import s from './auth-form.module.css';
 
-interface AuthProps {
+export interface UserData {
+  password: string;
+  favorites: string[];
+}
+
+export interface AuthProps {
   mode: 'register' | 'login';
 }
 
 const AuthForm = ({ mode }: AuthProps) => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [users, setUsers] = useLocalStorage<Record<string, string>>(
+  const [users, setUsers] = useLocalStorage<Record<string, UserData>>(
     'users',
     {}
   );
@@ -26,12 +31,15 @@ const AuthForm = ({ mode }: AuthProps) => {
         alert('User already exists');
         return;
       }
-      setUsers(prevUsers => ({ ...prevUsers, [email]: password }));
+      setUsers(prevUsers => ({
+        ...prevUsers,
+        [email]: { password, favorites: [] },
+      }));
       const token = btoa(`${email}:${password}`);
       login(token);
       navigate('/');
     } else if (mode === 'login') {
-      if (users[email] === password) {
+      if (users[email]?.password === password) {
         const token = btoa(`${email}:${password}`);
         login(token);
         navigate('/');

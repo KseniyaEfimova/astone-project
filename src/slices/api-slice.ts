@@ -23,7 +23,7 @@ export const starWarsApiSlice = createApi({
           id: character.url.split('/').filter(Boolean).pop() ?? '',
         }));
       },
-      keepUnusedDataFor: 3600,
+      keepUnusedDataFor: 300,
     }),
 
     getCharacter: builder.query<CharacterWithImage, string>({
