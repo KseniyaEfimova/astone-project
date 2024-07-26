@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
+import useSearchHistory from '../../Pages/History/useSearchHistory';
 import { debounce } from 'lodash';
 import {
   clearSearch,
@@ -19,6 +20,7 @@ export const useSearchLogic = (initialQuery: string) => {
   const location = useLocation();
 
   const [localQuery, setLocalQuery] = useState(initialQuery);
+  const { addSearchQuery } = useSearchHistory();
 
   const debouncedSearch = useCallback(
     debounce((term: string) => {
@@ -68,6 +70,7 @@ export const useSearchLogic = (initialQuery: string) => {
   const handleSearch = () => {
     if (localQuery) {
       dispatch(setQuery(localQuery));
+      addSearchQuery(localQuery);
       navigate(`/search?q=${encodeURIComponent(localQuery)}`);
     }
   };
@@ -75,7 +78,14 @@ export const useSearchLogic = (initialQuery: string) => {
   const handleSuggestionClick = (suggestion: Suggestion) => {
     setLocalQuery(suggestion.name);
     dispatch(setQuery(suggestion.name));
+    addSearchQuery(suggestion.name);
     navigate(`/character/${suggestion.id}`);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
   };
 
   return {
@@ -84,5 +94,6 @@ export const useSearchLogic = (initialQuery: string) => {
     handleInputChange,
     handleSearch,
     handleSuggestionClick,
+    handleKeyDown,
   };
 };

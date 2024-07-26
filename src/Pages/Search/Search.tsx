@@ -1,30 +1,26 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-// import { useFavorites } from '../Favorites/useFavorites';
-import {
-  useSearchCharactersQuery,
-  useGetSomeCharactersQuery,
-} from '../../slices/api-slice';
+import { useSearchCharactersQuery } from '../../slices/api-slice';
 import { RootState } from '../../store/store';
 import { setCharacters } from '../../slices/characters-slice';
 import { setQuery } from '../../slices/search-slice';
 import SearchBar from '../../Components/Search-bar/Search-bar';
-// import Characters from '../Characters/Characters-list';
 import CharactersWrapper from '../Characters/CharactersWrapper';
+import useSearchHistory from '../History/useSearchHistory';
 import s from './search-page.module.css';
 
 const SearchPage = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const query = useSelector((state: RootState) => state.search.query);
-  // const { favorites, addFavorite, removeFavorite } = useFavorites();
-
-  const { data: initialCharacters } = useGetSomeCharactersQuery();
+  const { addSearchQuery } = useSearchHistory();
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const queryParam = searchParams.get('q') || '';
+    console.log(query);
+    addSearchQuery(queryParam);
     if (queryParam !== query) {
       dispatch(setQuery(queryParam));
     }
@@ -34,19 +30,13 @@ const SearchPage = () => {
     skip: !query,
   });
 
-  console.log(initialCharacters);
   console.log(searchResults);
 
   useEffect(() => {
     if (searchResults && searchResults.length > 0) {
       dispatch(setCharacters(searchResults));
-    } else if (
-      initialCharacters &&
-      (!searchResults || searchResults.length === 0)
-    ) {
-      dispatch(setCharacters(initialCharacters));
     }
-  }, [searchResults, initialCharacters, dispatch]);
+  }, [searchResults, dispatch]);
 
   const characterIds = searchResults
     ? searchResults.map(character => character.id)

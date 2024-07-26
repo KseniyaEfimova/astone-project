@@ -1,19 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useSearchLogic } from './use-search-logic.ts';
+import { useLocation } from 'react-router-dom';
 import { RootState } from '../../store/store.ts';
 import SuggestionList from './Suggestion-list.tsx';
 import SearchInput from './Search-input.tsx';
-import { useSearchLogic } from './use-search-logic.ts';
-import { clearSearch } from '../../slices/search-slice.ts';
-import s from './search-bar.module.css'; // TODO: css
+import s from './search-bar.module.css';
 
 const SearchBar = () => {
-  const dispatch = useDispatch();
   const { query, suggestions } = useSelector(
     (state: RootState) => state.search
   );
   const [showSuggestions, setShowSuggestions] = useState(false);
   const searchBarRef = useRef<HTMLDivElement>(null);
+  const location = useLocation();
 
   const {
     localQuery,
@@ -21,13 +21,16 @@ const SearchBar = () => {
     handleInputChange,
     handleSearch,
     handleSuggestionClick,
+    handleKeyDown,
   } = useSearchLogic(query);
 
   useEffect(() => {
-    if (location.pathname === '/') {
-      dispatch(clearSearch());
+    const searchParams = new URLSearchParams(location.search);
+    const queryParam = searchParams.get('q');
+    if (queryParam) {
+      handleInputChange(queryParam);
     }
-  }, [location.pathname, dispatch]);
+  }, [location.search]);
 
   const handleClickOutside = (event: MouseEvent) => {
     if (
@@ -38,24 +41,12 @@ const SearchBar = () => {
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      handleSearch();
-      setShowSuggestions(false);
-    }
-  };
-
-  const handleSearchButtonClick = () => {
-    handleSearch();
-    setShowSuggestions(false);
-  };
 
   return (
     <div className={s.searchBarContainer} ref={searchBarRef}>
@@ -64,7 +55,7 @@ const SearchBar = () => {
         onChange={e => handleInputChange(e.target.value)}
         onKeyDown={handleKeyDown}
         onFocus={() => setShowSuggestions(true)}
-        onClick={handleSearchButtonClick}
+        onClick={handleSearch}
       />
       {showSuggestions && suggestions.length > 0 && !isLoading && (
         <SuggestionList
