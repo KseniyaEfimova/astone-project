@@ -1,5 +1,5 @@
 import React from 'react';
-import s from './search-bar.module.css'; // TODO: css
+import s from './search-bar.module.css';
 
 interface SearchInputProps {
   value: string;

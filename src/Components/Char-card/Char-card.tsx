@@ -3,7 +3,7 @@ import { useGetCharacterQuery } from '../../slices/api-slice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useFavorites } from '../../Pages/Favorites/useFavorites.ts';
-import { RootState } from '../../store/store.ts';
+import { getCurrentCharacter } from '../../slices/characters-slice.ts';
 import { setCurrentCharacter } from '../../slices/characters-slice.ts';
 import FilmInfo from './Film-info.tsx';
 import PlanetInfo from './Planet-info.tsx';
@@ -13,10 +13,11 @@ import s from './chat-card.module.css';
 const CharCard = () => {
   const dispatch = useDispatch();
   const { id = '' } = useParams<{ id: string }>();
+
   const { data: character, isLoading, error } = useGetCharacterQuery(id);
-  const currentCharacter = useSelector(
-    (state: RootState) => state.characters.currentCharacter
-  );
+
+  const currentCharacter = useSelector(getCurrentCharacter);
+
   const { favorites, addFavorite, removeFavorite } = useFavorites();
 
   useEffect(() => {
@@ -31,8 +32,6 @@ const CharCard = () => {
       <h2>Error: {error instanceof Error ? error.message : 'Unknown error'}</h2>
     );
   if (!currentCharacter) return <p>Character not found</p>;
-
-  console.log(currentCharacter);
 
   const currentCharacterId =
     currentCharacter.url.split('/').filter(Boolean).pop() || '';

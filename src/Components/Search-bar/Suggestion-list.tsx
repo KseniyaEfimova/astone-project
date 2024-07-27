@@ -1,16 +1,15 @@
-import React from 'react';
 import { Suggestion } from '../../types/star-wars-api-types.ts';
-import s from './search-bar.module.css'; // TODO: css
+import s from './search-bar.module.css';
 
 interface SuggestionListProps {
   suggestions: Suggestion[];
   onSuggestionClick: (suggestion: Suggestion) => void;
 }
 
-const SuggestionList: React.FC<SuggestionListProps> = ({
+const SuggestionList = ({
   suggestions,
   onSuggestionClick,
-}) => (
+}: SuggestionListProps) => (
   <ul className={s.suggestions}>
     {suggestions.map((suggestion: Suggestion) => (
       <li

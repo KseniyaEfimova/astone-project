@@ -1,6 +1,5 @@
 import { useAuth } from '../../Authentication/Auth-context';
 import { useNavigate } from 'react-router-dom';
-import s from './favorite-button.module.css';
 
 interface FavoriteButtonProps {
   characterId: string;
@@ -31,7 +30,7 @@ const FavoriteButton = ({
   };
 
   return (
-    <button onClick={handleFavoriteAction} className={s.favoriteButton}>
+    <button onClick={handleFavoriteAction}>
       {isInFavorites ? 'Remove from favorites' : 'Add to favorites'}
     </button>
   );

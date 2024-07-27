@@ -2,15 +2,13 @@ import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useSearchLogic } from './use-search-logic.ts';
 import { useLocation } from 'react-router-dom';
-import { RootState } from '../../store/store.ts';
+import { getSearchData } from '../../slices/search-slice.ts';
 import SuggestionList from './Suggestion-list.tsx';
 import SearchInput from './Search-input.tsx';
 import s from './search-bar.module.css';
 
 const SearchBar = () => {
-  const { query, suggestions } = useSelector(
-    (state: RootState) => state.search
-  );
+  const { query, suggestions } = useSelector(getSearchData);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const searchBarRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
