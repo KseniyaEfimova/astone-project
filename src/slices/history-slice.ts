@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from '../store/store';
 
 export interface HistoryState {
   searchQueries: string[];
@@ -39,5 +40,8 @@ export const {
   clearSearchHistory,
   setSearchHistory,
 } = historySlice.actions;
+
+export const getSearchHistory = (state: RootState) =>
+  state.history.searchQueries;
 
 export default historySlice.reducer;

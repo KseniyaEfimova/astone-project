@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CharacterWithImage } from '../types/star-wars-api-types';
+import { RootState } from '../store/store';
 
 export interface CharactersState {
   list: CharacterWithImage[];
@@ -28,4 +29,8 @@ const charactersSlice = createSlice({
 });
 
 export const { setCharacters, setCurrentCharacter } = charactersSlice.actions;
+
+export const getCurrentCharacter = (state: RootState) =>
+  state.characters.currentCharacter;
+
 export default charactersSlice.reducer;

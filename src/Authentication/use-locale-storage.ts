@@ -9,7 +9,7 @@ function useLocalStorage<T>(
       const item = window.localStorage.getItem(key);
       return item ? JSON.parse(item) : initialValue;
     } catch (error) {
-      console.log(error);
+      alert(error);
       return initialValue;
     }
   });
@@ -18,7 +18,7 @@ function useLocalStorage<T>(
     try {
       window.localStorage.setItem(key, JSON.stringify(storedValue));
     } catch (error) {
-      console.log(error);
+      alert(error);
     }
   }, [key, storedValue]);
 
@@ -29,7 +29,7 @@ function useLocalStorage<T>(
       setStoredValue(valueToStore);
       window.localStorage.setItem(key, JSON.stringify(valueToStore));
     } catch (error) {
-      console.log(error);
+      alert(error);
     }
   };
 

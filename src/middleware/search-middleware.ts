@@ -10,11 +10,11 @@ export const searchHistoryMiddleware: Middleware = store => next => action => {
   const result = next(action);
 
   if (addSearchQuery.match(action)) {
-    console.log(`Добавлен поисковый запрос в историю: ${action.payload}`);
+    console.log(`Added search query to history: ${action.payload}`);
   } else if (removeSearchQuery.match(action)) {
-    console.log(`Удален поисковый запрос из истории: ${action.payload}`);
+    console.log(`Search query removed from history: ${action.payload}`);
   } else if (clearSearchHistory.match(action)) {
-    console.log('История поиска очищена');
+    console.log('Search history cleared');
   }
 
   return result;

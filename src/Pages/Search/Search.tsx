@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { useSearchCharactersQuery } from '../../slices/api-slice';
-import { RootState } from '../../store/store';
 import { setCharacters } from '../../slices/characters-slice';
 import { setQuery } from '../../slices/search-slice';
 import { getSearchQuery } from '../../slices/search-slice';
@@ -15,13 +14,13 @@ import React from 'react';
 const SearchPage = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const query = useSelector(getSearchQuery); // Using the new selector
+  const query = useSelector(getSearchQuery);
   const { addSearchQuery } = useSearchHistory();
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const queryParam = searchParams.get('q') || '';
-    console.log(query);
+
     addSearchQuery(queryParam);
     if (queryParam !== query) {
       dispatch(setQuery(queryParam));
@@ -31,8 +30,6 @@ const SearchPage = () => {
   const { data: searchResults } = useSearchCharactersQuery(query, {
     skip: !query,
   });
-
-  console.log(searchResults);
 
   useEffect(() => {
     if (searchResults && searchResults.length > 0) {

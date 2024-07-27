@@ -70,11 +70,11 @@
 
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
 import {
   addSearchQuery,
   removeSearchQuery,
   setSearchHistory,
+  getSearchHistory,
 } from '../../slices/history-slice';
 import { useAuth } from '../../Authentication/Auth-context';
 import useLocalStorage from '../../Authentication/use-locale-storage';
@@ -87,9 +87,7 @@ export const useSearchHistory = () => {
     'users',
     {}
   );
-  const searchHistory = useSelector(
-    (state: RootState) => state.history.searchQueries
-  );
+  const searchHistory = useSelector(getSearchHistory);
 
   useEffect(() => {
     const email = getCurrentUserEmail();

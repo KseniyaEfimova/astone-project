@@ -1,33 +1,3 @@
-// import { configureStore } from '@reduxjs/toolkit';
-// import { starWarsApiSlice } from '../slices/api-slice';
-// import searchReducer, { SearchState } from '../slices/search-slice';
-// import charactersReducer, { CharactersState } from '../slices/characters-slice';
-// import favoritesReducer, { FavoritesState } from '../slices/favorites-slice';
-// import { favoritesMiddleware } from '../middleware/favorites-middleware';
-
-// const store = configureStore({
-//   reducer: {
-//     [starWarsApiSlice.reducerPath]: starWarsApiSlice.reducer,
-//     search: searchReducer,
-//     characters: charactersReducer,
-//     favorites: favoritesReducer,
-//   },
-//   middleware: getDefaultMiddleware =>
-//     getDefaultMiddleware()
-//       .concat(starWarsApiSlice.middleware)
-//       .concat(favoritesMiddleware),
-// });
-
-// export interface RootState {
-//   [starWarsApiSlice.reducerPath]: ReturnType<typeof starWarsApiSlice.reducer>;
-//   search: SearchState;
-//   characters: CharactersState;
-//   favorites: FavoritesState;
-// }
-// export type AppDispatch = typeof store.dispatch;
-
-// export default store;
-
 import { configureStore } from '@reduxjs/toolkit';
 import { starWarsApiSlice } from '../slices/api-slice';
 import searchReducer, { SearchState } from '../slices/search-slice';

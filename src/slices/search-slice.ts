@@ -33,4 +33,9 @@ export const { setQuery, setSuggestions, clearSearch } = searchSlice.actions;
 
 export const getSearchQuery = (state: RootState) => state.search.query;
 
+export const getSearchData = (state: RootState) => ({
+  query: state.search.query,
+  suggestions: state.search.suggestions,
+});
+
 export default searchSlice.reducer;
