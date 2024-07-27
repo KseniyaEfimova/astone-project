@@ -39,7 +39,7 @@ const CharacterCardPreview = React.memo(
           </div>
           <h3 className={s['character-name']}>{character.name}</h3>
         </div>
-
+        {isFavoritesPage ? <span>&hearts;</span> : null}
         <FavoriteButton
           characterId={id}
           isInFavorites={isInFavorites}

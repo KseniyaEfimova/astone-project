@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Suggestion } from '../types/star-wars-api-types';
+import { RootState } from '../store/store';
 
 export interface SearchState {
   query: string;
@@ -29,5 +30,7 @@ const searchSlice = createSlice({
 });
 
 export const { setQuery, setSuggestions, clearSearch } = searchSlice.actions;
+
+export const getSearchQuery = (state: RootState) => state.search.query;
 
 export default searchSlice.reducer;

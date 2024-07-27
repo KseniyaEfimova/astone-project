@@ -5,15 +5,17 @@ import { useSearchCharactersQuery } from '../../slices/api-slice';
 import { RootState } from '../../store/store';
 import { setCharacters } from '../../slices/characters-slice';
 import { setQuery } from '../../slices/search-slice';
+import { getSearchQuery } from '../../slices/search-slice';
 import SearchBar from '../../Components/Search-bar/Search-bar';
 import CharactersWrapper from '../Characters/CharactersWrapper';
 import useSearchHistory from '../History/useSearchHistory';
 import s from './search-page.module.css';
+import React from 'react';
 
 const SearchPage = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const query = useSelector((state: RootState) => state.search.query);
+  const query = useSelector(getSearchQuery); // Using the new selector
   const { addSearchQuery } = useSearchHistory();
 
   useEffect(() => {
@@ -61,4 +63,4 @@ const SearchPage = () => {
   );
 };
 
-export default SearchPage;
+export default React.memo(SearchPage);
